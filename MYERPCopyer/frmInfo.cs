@@ -12,13 +12,23 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
+using System.Xml.Linq;
+using System.Xml;
 
 namespace MYERPCopyer
 {
     public partial class frmInfo : Form
     {
+        private string args {get;set;}
         public frmInfo()
         {
+            this.args = string.Empty;
+            InitializeComponent();
+        }
+
+        public frmInfo (string args)
+        {
+            this.args = args;
             InitializeComponent();
         }
 
@@ -141,13 +151,20 @@ namespace MYERPCopyer
         {
             Thread.Sleep(600);
             int x = ShowInList("更新開始....");
+            if (args.Length >0)
+            {
+                x = ShowInList("由系统调用，等待2秒后启动...");
+
+                Application.DoEvents();
+                Thread.Sleep(2000);
+            }
             x = ShowInList("檢查本機IP:");
             Thread.Sleep(600);
             string LocalIP = MYERPCopyer.NetworkNeighborhood.NetDiskConnection.GetLocalIp();
             x = ShowInList(LocalIP, x);
-            string RemoteIP = "192.168.1.6", RemoteFileUrl, RemoteConfigUrl, RemoteCopyerUrl;
+            string RemoteIP = "192.168.1.6", RemoteFileUrl, RemoteConfigUrl, RemoteCopyerUrl, CompanyTitleName;
             Regex rgx = new Regex(@"(\d+)(?=\.)");
-            int IPSect = int.Parse(rgx.Matches(RemoteIP)[2].Value);
+            int IPSect = int.Parse(rgx.Matches(LocalIP)[2].Value);
             Thread.Sleep(600);
             switch (IPSect)
             {
@@ -156,18 +173,28 @@ namespace MYERPCopyer
                     RemoteConfigUrl = string.Format(@"http://{0}/Config/MY/Start.xml", RemoteIP);
                     RemoteFileUrl = string.Format(@"http://{0}/Config/MY/Setup.zip", RemoteIP);
                     RemoteCopyerUrl = string.Format(@"http://{0}/Config/MY/MYERPCopyer.zip", RemoteIP);
+                    CompanyTitleName = "明扬";
                     break;
-                case 16:
-                    RemoteIP = "192.168.16.60";
+                case 16:   //明泰
+                    RemoteIP = "192.168.16.41";
                     RemoteConfigUrl = string.Format(@"http://{0}/Config/MT/Start.xml", RemoteIP);
                     RemoteFileUrl = string.Format(@"http://{0}/Config/MT/Setup.zip", RemoteIP);
                     RemoteCopyerUrl = string.Format(@"http://{0}/Config/MT/MYERPCopyer.zip", RemoteIP);
+                    CompanyTitleName = "明泰";
+                    break;
+                case 10:
+                    RemoteIP = "192.168.16.41";
+                    RemoteConfigUrl = string.Format(@"http://{0}/Config/MT/Start.xml", RemoteIP);
+                    RemoteFileUrl = string.Format(@"http://{0}/Config/MT/Setup.zip", RemoteIP);
+                    RemoteCopyerUrl = string.Format(@"http://{0}/Config/MT/MYERPCopyer.zip", RemoteIP);
+                    CompanyTitleName = "明翔";
                     break;
                 default:
                     RemoteIP = "192.168.1.6";
                     RemoteConfigUrl = string.Format(@"http://{0}/Config/MY/Start.xml", RemoteIP);
                     RemoteFileUrl = string.Format(@"http://{0}/Config/MY/Setup.zip", RemoteIP);
                     RemoteCopyerUrl = string.Format(@"http://{0}/Config/MY/MYERPCopyer.zip", RemoteIP);
+                    CompanyTitleName = "明扬";
                     break;
             }
             x = ShowInList(string.Format(",設置服務器:{0}", RemoteIP), x);
@@ -330,10 +357,10 @@ namespace MYERPCopyer
             {
                 ///开始生成快捷方式。和重新待开
                 string desktopDir = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-                string lnkFile = string.Format("{0}\\明揚ERP系統.lnk", desktopDir);
+                string lnkFile = string.Format("{0}\\{1}ERP系統.lnk", desktopDir, CompanyTitleName);
                 if (File.Exists(lnkFile)) File.Delete(lnkFile);
                 WindowsShortcut.Shortcut WC = new WindowsShortcut.Shortcut();
-                WC.Description = "蘇州明揚新ERP系統";
+                WC.Description = string.Format("{0}新ERP系統", CompanyTitleName);
                 WC.Path = string.Format("C:\\MYERP-NT\\{0}", "MYERP.exe");
                 WC.WorkingDirectory = "C:\\MYERP-NT\\";
                 WC.Save(lnkFile);
@@ -342,6 +369,27 @@ namespace MYERPCopyer
             {
 
             }
+
+            XDocument xdoc = XDocument.Load(RemoteConfigUrl);
+            var vXml = from a in xdoc.Element("Root").Element("Host").Elements()
+                       select a;
+            var vvXml = from a in vXml.Elements()
+                        where a.Name == "Set" && a.Attribute("Key").Value == "Version"
+                        select a;
+            string VersionValue = vvXml.FirstOrDefault().Attribute("Name").Value;
+            //获取最新版本号，写入UpdateConfig.xml
+            XmlDocument xUpdateConfig = new XmlDocument();
+            XmlDeclaration xUpdateConfig_Decl = xUpdateConfig.CreateXmlDeclaration("1.0", "utf-8", "yes");
+            xUpdateConfig.AppendChild(xUpdateConfig_Decl);
+            XmlElement xUpdateConfig_Config = xUpdateConfig.CreateElement("Config");
+            XmlElement xUpdateConfig_Version = xUpdateConfig.CreateElement("Version");
+            xUpdateConfig_Version.SetAttribute("Value", VersionValue);
+            xUpdateConfig_Config.AppendChild(xUpdateConfig_Version);
+            xUpdateConfig.AppendChild(xUpdateConfig_Config);
+            string UpdateConfigFile = @"C:\MYERP-NT\UpdateConfig.xml";
+            if (File.Exists(UpdateConfigFile)) File.Delete(UpdateConfigFile);
+            xUpdateConfig.Save(@"C:\MYERP-NT\UpdateConfig.xml");
+
             try
             {
                 //重新開啓ERP

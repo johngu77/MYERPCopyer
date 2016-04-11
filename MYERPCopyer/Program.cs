@@ -16,7 +16,15 @@ namespace MYERPCopyer
         {
             //Copyer C = new Copyer();
             //C.Entry();
-            frmInfo f = new frmInfo();
+            frmInfo f;
+            if (args != null && args.Count()>0)
+            {
+                f = new frmInfo(args[0]);
+            }
+            else
+            {
+                f = new frmInfo();
+            }
             Application.Run(f);
         }
 
