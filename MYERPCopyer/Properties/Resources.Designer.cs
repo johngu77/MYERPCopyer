@@ -59,5 +59,365 @@ namespace MYERPCopyer.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   查找类似 Minh Duc 的本地化字符串。
+        /// </summary>
+        internal static string CompanyTitleNameMD {
+            get {
+                return ResourceManager.GetString("CompanyTitleNameMD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Ming Tai 的本地化字符串。
+        /// </summary>
+        internal static string CompanyTitleNameMT {
+            get {
+                return ResourceManager.GetString("CompanyTitleNameMT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Ming Xiang 的本地化字符串。
+        /// </summary>
+        internal static string CompanyTitleNameMX {
+            get {
+                return ResourceManager.GetString("CompanyTitleNameMX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Ming Yang 的本地化字符串。
+        /// </summary>
+        internal static string CompanyTitleNameMY {
+            get {
+                return ResourceManager.GetString("CompanyTitleNameMY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Create Shortcut on desktop 的本地化字符串。
+        /// </summary>
+        internal static string CreateShortcut {
+            get {
+                return ResourceManager.GetString("CreateShortcut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ERP System 的本地化字符串。
+        /// </summary>
+        internal static string ERPSyetemWord {
+            get {
+                return ResourceManager.GetString("ERPSyetemWord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 New ERP System 的本地化字符串。
+        /// </summary>
+        internal static string ERPSyetemWord2 {
+            get {
+                return ResourceManager.GetString("ERPSyetemWord2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Error. 的本地化字符串。
+        /// </summary>
+        internal static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Copying... {0:0%} 的本地化字符串。
+        /// </summary>
+        internal static string FileCopy1 {
+            get {
+                return ResourceManager.GetString("FileCopy1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File copy complete. 的本地化字符串。
+        /// </summary>
+        internal static string FileCopy2 {
+            get {
+                return ResourceManager.GetString("FileCopy2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Done. 的本地化字符串。
+        /// </summary>
+        internal static string FileFinish {
+            get {
+                return ResourceManager.GetString("FileFinish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File Error 的本地化字符串。
+        /// </summary>
+        internal static string FileFinishError {
+            get {
+                return ResourceManager.GetString("FileFinishError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Renew ... {0:0%} 的本地化字符串。
+        /// </summary>
+        internal static string FileProcess1 {
+            get {
+                return ResourceManager.GetString("FileProcess1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Processing {0}... 的本地化字符串。
+        /// </summary>
+        internal static string FileProcess2 {
+            get {
+                return ResourceManager.GetString("FileProcess2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Prepare to Copy .... 的本地化字符串。
+        /// </summary>
+        internal static string FileUpdate1 {
+            get {
+                return ResourceManager.GetString("FileUpdate1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Copy File... 的本地化字符串。
+        /// </summary>
+        internal static string FileUpdate2 {
+            get {
+                return ResourceManager.GetString("FileUpdate2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Update 的本地化字符串。
+        /// </summary>
+        internal static string InfoTitle1 {
+            get {
+                return ResourceManager.GetString("InfoTitle1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Getting upgrade file 的本地化字符串。
+        /// </summary>
+        internal static string InfoTitle2 {
+            get {
+                return ResourceManager.GetString("InfoTitle2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Checking Setting 的本地化字符串。
+        /// </summary>
+        internal static string lblDescription {
+            get {
+                return ResourceManager.GetString("lblDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ERP Update Tools 的本地化字符串。
+        /// </summary>
+        internal static string lblTitle {
+            get {
+                return ResourceManager.GetString("lblTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Reopen ERP,Pls waiting... 的本地化字符串。
+        /// </summary>
+        internal static string Reopen {
+            get {
+                return ResourceManager.GetString("Reopen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Close ERP Processing 的本地化字符串。
+        /// </summary>
+        internal static string StopProcess {
+            get {
+                return ResourceManager.GetString("StopProcess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unzip  {0}% 的本地化字符串。
+        /// </summary>
+        internal static string UpdateProcess1 {
+            get {
+                return ResourceManager.GetString("UpdateProcess1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unzip.....{0}% 的本地化字符串。
+        /// </summary>
+        internal static string UpdateProcess2 {
+            get {
+                return ResourceManager.GetString("UpdateProcess2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download support file 的本地化字符串。
+        /// </summary>
+        internal static string UpdateStep1 {
+            get {
+                return ResourceManager.GetString("UpdateStep1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unzip... 的本地化字符串。
+        /// </summary>
+        internal static string UpdateStep2 {
+            get {
+                return ResourceManager.GetString("UpdateStep2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cleaning setup folder 的本地化字符串。
+        /// </summary>
+        internal static string UpdateStep3 {
+            get {
+                return ResourceManager.GetString("UpdateStep3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Create Folder C:\MYERP-NT 的本地化字符串。
+        /// </summary>
+        internal static string UpdateStep3_1 {
+            get {
+                return ResourceManager.GetString("UpdateStep3_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Copy setup file 的本地化字符串。
+        /// </summary>
+        internal static string UpdateStep3_2 {
+            get {
+                return ResourceManager.GetString("UpdateStep3_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Copy language file {0} 的本地化字符串。
+        /// </summary>
+        internal static string UpdateStep3_3 {
+            get {
+                return ResourceManager.GetString("UpdateStep3_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Setup tools updated,Start install after 1 second. 的本地化字符串。
+        /// </summary>
+        internal static string UpdateStep4 {
+            get {
+                return ResourceManager.GetString("UpdateStep4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download File. 的本地化字符串。
+        /// </summary>
+        internal static string UpdateStep5 {
+            get {
+                return ResourceManager.GetString("UpdateStep5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download.....{0}% 的本地化字符串。
+        /// </summary>
+        internal static string UpdateStep6 {
+            get {
+                return ResourceManager.GetString("UpdateStep6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Done 的本地化字符串。
+        /// </summary>
+        internal static string UpdateStep6Finish {
+            get {
+                return ResourceManager.GetString("UpdateStep6Finish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unzip 的本地化字符串。
+        /// </summary>
+        internal static string UpdateStep7_1 {
+            get {
+                return ResourceManager.GetString("UpdateStep7_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unzip 的本地化字符串。
+        /// </summary>
+        internal static string UpdateStep7_2 {
+            get {
+                return ResourceManager.GetString("UpdateStep7_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Start... 的本地化字符串。
+        /// </summary>
+        internal static string UpdateSystem1 {
+            get {
+                return ResourceManager.GetString("UpdateSystem1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 After 2 second.. 的本地化字符串。
+        /// </summary>
+        internal static string UpdateSystem2 {
+            get {
+                return ResourceManager.GetString("UpdateSystem2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Client IP. 的本地化字符串。
+        /// </summary>
+        internal static string UpdateSystem3 {
+            get {
+                return ResourceManager.GetString("UpdateSystem3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ,Server IP:{0} 的本地化字符串。
+        /// </summary>
+        internal static string UpdateSystem4 {
+            get {
+                return ResourceManager.GetString("UpdateSystem4", resourceCulture);
+            }
+        }
     }
 }

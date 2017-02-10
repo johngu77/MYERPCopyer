@@ -6,6 +6,7 @@ using System.IO;
 using ICSharpCode.SharpZipLib;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Checksums;
+using ICSharpCode.SharpZipLib.Core;
 
 namespace MYERPCopyer
 {
@@ -109,6 +110,38 @@ namespace MYERPCopyer
                     }
                 }
             }
+        }
+
+
+        public static void UnzipDirectory(string ZipFileName,string ExtractToPath,Unziping cZiping)
+        {
+            FastZipEvents fe = new FastZipEvents();
+            int ESum = 0, EIndex = 0;
+            using (ZipInputStream s = new ZipInputStream(File.OpenRead(ZipFileName)))
+            {
+                ZipEntry theEntry;
+                while ((theEntry = s.GetNextEntry()) != null)
+                {
+                    ESum++;
+                }
+            }
+            ESum += 1;
+            fe.Progress = (object o, ProgressEventArgs arg) =>
+            {
+                if (cZiping != null)
+                {
+                    EIndex++;
+                    int p = (int)Math.Floor(((double)EIndex * 100) / (double)ESum);
+                    cZiping(p, arg.Name);
+                }
+            };
+
+            FastZip f = new FastZip(fe);
+            if (Directory.Exists(ExtractToPath)) Directory.Delete(ExtractToPath, true);
+            Directory.CreateDirectory(ExtractToPath);
+            f.CreateEmptyDirectories = true;
+            f.RestoreDateTimeOnExtract = true;
+            f.ExtractZip(ZipFileName, ExtractToPath, string.Empty);
         }
     }
 }

@@ -14,19 +14,23 @@ using System.IO;
 using System.Diagnostics;
 using System.Xml.Linq;
 using System.Xml;
+using System.Resources;
+using MYERPCopyer.Properties;
 
 namespace MYERPCopyer
 {
     public partial class frmInfo : Form
     {
-        private string args {get;set;}
+        private string args { get; set; }
+
+        ResourceManager rm = new ResourceManager(typeof(frmInfo));
         public frmInfo()
         {
             this.args = string.Empty;
             InitializeComponent();
         }
 
-        public frmInfo (string args)
+        public frmInfo(string args)
         {
             this.args = args;
             InitializeComponent();
@@ -34,8 +38,9 @@ namespace MYERPCopyer
 
         private void frmInfo_Load(object sender, EventArgs e)
         {
-            lblTitle.Text = string.Format("ERP更新工具");
-            lblDescription.Text = "正在檢查更新設置。";
+            //lblTitle.Text = Thread.CurrentThread.CurrentUICulture.Name;
+            lblTitle.Text = Properties.Resources.lblTitle;   // string.Format("ERP更新工具");
+            lblDescription.Text = Properties.Resources.lblDescription; // "正在檢查更新設置。";
         }
 
         protected override void OnShown(EventArgs e)
@@ -150,15 +155,16 @@ namespace MYERPCopyer
         private void UpdateSystem()
         {
             Thread.Sleep(600);
-            int x = ShowInList("更新開始....");
-            if (args.Length >0)
+            //更新開始....
+            int x = ShowInList(Properties.Resources.UpdateSystem1);
+            if (args.Length > 0)
             {
-                x = ShowInList("由系统调用，等待2秒后启动...");
-
+                //由系统调用，等待2秒后启动...
+                x = ShowInList(Properties.Resources.UpdateSystem2);
                 Application.DoEvents();
                 Thread.Sleep(2000);
             }
-            x = ShowInList("檢查本機IP:");
+            x = ShowInList(Properties.Resources.UpdateSystem3);  //檢查本機IP：
             Thread.Sleep(600);
             string LocalIP = MYERPCopyer.NetworkNeighborhood.NetDiskConnection.GetLocalIp();
             x = ShowInList(LocalIP, x);
@@ -168,39 +174,45 @@ namespace MYERPCopyer
             Thread.Sleep(600);
             switch (IPSect)
             {
-                case 0:
-                    RemoteIP = "192.168.1.6";
-                    RemoteConfigUrl = string.Format(@"http://{0}/Config/MY/Start.xml", RemoteIP);
-                    RemoteFileUrl = string.Format(@"http://{0}/Config/MY/Setup.zip", RemoteIP);
-                    RemoteCopyerUrl = string.Format(@"http://{0}/Config/MY/MYERPCopyer.zip", RemoteIP);
-                    CompanyTitleName = "明扬";
-                    break;
                 case 16:   //明泰
                     RemoteIP = "192.168.16.41";
                     RemoteConfigUrl = string.Format(@"http://{0}/Config/MT/Start.xml", RemoteIP);
                     RemoteFileUrl = string.Format(@"http://{0}/Config/MT/Setup.zip", RemoteIP);
                     RemoteCopyerUrl = string.Format(@"http://{0}/Config/MT/MYERPCopyer.zip", RemoteIP);
-                    CompanyTitleName = "明泰";
+                    CompanyTitleName = Resources.CompanyTitleNameMT;
                     break;
-                case 10:
+                case 10: //明翔
                     RemoteIP = "192.168.16.41";
                     RemoteConfigUrl = string.Format(@"http://{0}/Config/MT/Start.xml", RemoteIP);
                     RemoteFileUrl = string.Format(@"http://{0}/Config/MT/Setup.zip", RemoteIP);
                     RemoteCopyerUrl = string.Format(@"http://{0}/Config/MT/MYERPCopyer.zip", RemoteIP);
-                    CompanyTitleName = "明翔";
+                    CompanyTitleName = Resources.CompanyTitleNameMX;
                     break;
-                default:
+                case 2: //明德
+                    RemoteIP = "192.168.2.111";
+                    RemoteConfigUrl = string.Format(@"http://{0}/Config/MD/Start.xml", RemoteIP);
+                    RemoteFileUrl = string.Format(@"http://{0}/Config/MD/Setup.zip", RemoteIP);
+                    RemoteCopyerUrl = string.Format(@"http://{0}/Config/MD/MYERPCopyer.zip", RemoteIP);
+                    CompanyTitleName = Resources.CompanyTitleNameMD;
+                    break;
+                default:  //默认都是明扬
                     RemoteIP = "192.168.1.6";
                     RemoteConfigUrl = string.Format(@"http://{0}/Config/MY/Start.xml", RemoteIP);
                     RemoteFileUrl = string.Format(@"http://{0}/Config/MY/Setup.zip", RemoteIP);
                     RemoteCopyerUrl = string.Format(@"http://{0}/Config/MY/MYERPCopyer.zip", RemoteIP);
-                    CompanyTitleName = "明扬";
+                    CompanyTitleName = Resources.CompanyTitleNameMY;
                     break;
             }
-            x = ShowInList(string.Format(",設置服務器:{0}", RemoteIP), x);
+            x = ShowInList(string.Format(Resources.UpdateSystem4, RemoteIP), x);
 
             string StartPath = System.Environment.CurrentDirectory;
             string SetupPath = @"C:\MYERP-NT";
+
+            InfoTitle = Resources.StopProcess;
+            x = ShowInList(Resources.StopProcess);
+            KillProcessExists();
+            Thread.Sleep(1300);
+
             ///啓動不是在正確的安裝位置，自動重新生成安裝位置，并且自動重新安裝。
             if (StartPath.ToLower() != SetupPath.ToLower())
             {
@@ -216,24 +228,74 @@ namespace MYERPCopyer
                 {
                 }
                 WebClient wc = new WebClient();
-                InfoTitle = "正在更新安裝";
-                x = ShowInList("下載安裝必要文件...");
-                wc.DownloadFile(RemoteCopyerUrl, LocalUpdateTempCopyer);
-                x = ShowInList("解壓縮...");
-                ZipHelper.UnZipFile(LocalUpdateTempCopyer, LocalUpdateTempCopyerTemp, null);
-                x = ShowInList(@"清理安裝文件夾，安裝到C:\MYERP-NT");
+                InfoTitle = Resources.InfoTitle1;
+                x = ShowInList(Resources.UpdateStep1); //下載安裝必要文件...
+
+                bool ProcessComplate = false;
+                wc.DownloadProgressChanged += (object sender, DownloadProgressChangedEventArgs e) =>
+                {
+                    Invoke((MethodInvoker)delegate
+                    {
+                        pbProcess.Maximum = 100;
+                        x = ShowInList(string.Format(Resources.UpdateStep6, e.ProgressPercentage), x, true);//正在下载安装包.....{0}%
+                        pbProcess.Value = e.ProgressPercentage;
+                        Application.DoEvents();
+                    });
+                };
+                wc.DownloadFileCompleted += (object sender, AsyncCompletedEventArgs e) =>
+                {
+                    ProcessComplate = true;
+                };
+                wc.DownloadFileAsync(new Uri(RemoteCopyerUrl), LocalUpdateTempCopyer);
+                while (!ProcessComplate)
+                {
+                    Invoke((MethodInvoker)delegate
+                    {
+                        Application.DoEvents();
+                    });
+                    Thread.Sleep(200);
+                }
+
+                x = ShowInList(Resources.UpdateStep2); //解壓縮...
+                ZipHelper.UnzipDirectory(LocalUpdateTempCopyer, LocalUpdateTempCopyerTemp, null);
+
+                x = ShowInList(Resources.UpdateStep3); //清理安裝文件夾，安裝到C:\MYERP-NT
                 if (Directory.Exists(SetupPath)) Directory.Delete(SetupPath, true);
+
+                x = ShowInList(Resources.UpdateStep3_1);  //创建C:\MYERP-NT安装位置
                 Directory.CreateDirectory(SetupPath);
+
                 string SetupCopyerFileName = string.Format("{0}\\{1}", SetupPath, "MYERPCopyer.exe");
-                File.Copy(LocalUpdateTempCopyerTempFile, SetupCopyerFileName);
-                x = ShowInList(@"安裝工具已經更新，1秒鐘后開始安裝。");
+                x = ShowInList(Resources.UpdateStep3_2);  //复制安装文件
+                try
+                {
+
+                    FileInfo fCopyer = new FileInfo(LocalUpdateTempCopyerTempFile);
+                    fCopyer.CopyTo(SetupCopyerFileName, true);
+                    //File.Copy(LocalUpdateTempCopyerTempFile, SetupCopyerFileName);
+                }
+                catch (Exception ex)
+                {
+                    x = ShowInList(ex.Message);
+                    return;
+                }
+                x = ShowInList(string.Format(Resources.UpdateStep3_3, ""));
+                DirectoryInfo d = new DirectoryInfo(LocalUpdateTempCopyerTemp);
+                foreach (var item in d.GetDirectories())
+                {
+                    x = ShowInList(string.Format(Resources.UpdateStep3_3, item.Name), x);  //复制文件夹
+                    item.MoveTo(string.Format("{0}\\{1}", SetupPath, item.Name));
+                }
+
+                x = ShowInList(Resources.UpdateStep4); //安裝工具已經更新，1秒鐘后開始安裝。
                 try
                 {
                     Directory.Delete(LocalUpdateTempCopyerTemp, true);
-                    File.Delete(LocalUpdateTempCopyer);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    x = ShowInList(ex.Message);
+                    return;
                 }
                 ProcessStartInfo psi = new ProcessStartInfo();
                 psi.FileName = SetupCopyerFileName;
@@ -256,16 +318,18 @@ namespace MYERPCopyer
             if (!(Directory.Exists(LocalUpdateTempPath) && Directory.GetFiles(LocalUpdateTempPath).Count() > 0))
             {
                 string LocalUpdateTempZIP = string.Format("{0}\\{1}", System.Environment.CurrentDirectory, "Setup.zip");
+                if (File.Exists(LocalUpdateTempZIP)) File.Delete(LocalUpdateTempZIP);
+
                 WebClient wc = new WebClient();
-                InfoTitle = "获取更新文件。";
-                x = ShowInList("下载安装包，重新安装...");
+                InfoTitle = Resources.InfoTitle2; //获取更新文件。
+                x = ShowInList(Resources.UpdateStep5); //下载安装包，重新安装...
                 bool ProcessComplate = false;
                 wc.DownloadProgressChanged += (object sender, DownloadProgressChangedEventArgs e) =>
                 {
                     Invoke((MethodInvoker)delegate
                     {
                         pbProcess.Maximum = 100;
-                        x = ShowInList(string.Format("正在下载安装包.....{0}%", e.ProgressPercentage), x, true);
+                        x = ShowInList(string.Format(Resources.UpdateStep6, e.ProgressPercentage), x, true);//正在下载安装包.....{0}%
                         pbProcess.Value = e.ProgressPercentage;
                         Application.DoEvents();
                     });
@@ -277,14 +341,14 @@ namespace MYERPCopyer
                 wc.DownloadFileAsync(new Uri(RemoteFileUrl), LocalUpdateTempZIP);
                 while (!ProcessComplate)
                 {
-                    Application.DoEvents();
+                    //Application.DoEvents();
                     Thread.Sleep(200);
                 }
-                x = ShowInList("下载完成", x, true);
+                x = ShowInList(Resources.UpdateStep6Finish, x, true); //"下载完成"
                 if (File.Exists(LocalUpdateTempZIP))
                 {
-                    x = ShowInList("解压缩。");
-                    x = ShowInList("正在解压。");
+                    x = ShowInList(Resources.UpdateStep7_1);//解压缩。
+                    x = ShowInList(Resources.UpdateStep7_2); //正在解压。
                     Application.DoEvents();
                     Thread.Sleep(1000);
                     if (Directory.Exists(LocalUpdateTempPath)) Directory.Delete(LocalUpdateTempPath, true);
@@ -294,22 +358,24 @@ namespace MYERPCopyer
                             Invoke((MethodInvoker)delegate
                             {
                                 pbProcess.Maximum = 100;
-                                InfoTitle = string.Format("解压缩  {0}%", Percent);
-                                x = ShowInList(string.Format("正在解压缩.....{0}%", Percent), x, true);
+                                InfoTitle = string.Format(Resources.UpdateProcess1, Percent); //解压缩  {0}%
+                                x = ShowInList(string.Format(Resources.UpdateProcess2, Percent), x, true); //正在解压缩.....{0}%
                                 pbProcess.Value = Percent;
                                 Application.DoEvents();
                             });
                             this.InfoDescription = fileName;
                         }
                         );
+                    string TempCopyerExePath = string.Format("{0}\\MYERPCopyer.exe",LocalUpdateTempPath);
+                    if (File.Exists(TempCopyerExePath)) File.Delete(TempCopyerExePath);
                     if (File.Exists(LocalUpdateTempZIP)) File.Delete(LocalUpdateTempZIP);
                 }
             }
             ///找到更新文件夹，直接复制后打开。
             if (Directory.Exists(LocalUpdateTempPath) && Directory.GetFiles(LocalUpdateTempPath).Count() > 0)
             {
-                x = ShowInList("更新。準備複製文件....");
-                InfoTitle = "複製檔案...";
+                x = ShowInList(Resources.FileUpdate1);//更新。準備複製文件....
+                InfoTitle = Resources.FileUpdate2;
                 Process processes = Process.GetCurrentProcess();
                 string thisexename = processes.ProcessName;
                 string[] files = Directory.GetFiles(LocalUpdateTempPath);
@@ -324,8 +390,8 @@ namespace MYERPCopyer
                     if (Path.GetFileName(item).ToLower() == thisexename.ToLower()) continue;
                     string UpdateTmpFile = string.Format("{0}\\{1}", LocalUpdateTempPath, Path.GetFileName(item)),
                            RealFile = string.Format("C:\\MYERP-NT\\{0}", Path.GetFileName(item));
-                    InfoTitle = string.Format("複製檔案... {0:0%}", (double)pbProcess.Value / (double)pbProcess.Maximum);
-                    InfoDescription = string.Format("正在Copy {0}...", Path.GetFileName(item));
+                    InfoTitle = string.Format(Resources.FileProcess1, (double)pbProcess.Value / (double)pbProcess.Maximum); //複製檔案... {0:0%}
+                    InfoDescription = string.Format(Resources.FileProcess2, Path.GetFileName(item)); //正在Copy {0}...
                     Invoke((MethodInvoker)delegate
                     {
                         pbProcess.Value += 1;
@@ -336,38 +402,54 @@ namespace MYERPCopyer
                         if ((!File.Exists(RealFile)) || !IsFileInUse(RealFile))
                         {
                             File.Copy(UpdateTmpFile, RealFile, true);
-                            x = ShowInList("Done.", x);
+                            x = ShowInList(Resources.FileFinish, x); //Done
                         }
                         else
                         {
-                            x = ShowInList("占用.", x);
+                            x = ShowInList(Resources.FileFinishError, x); //占用.
                         }
                     }
                     catch
                     {
-                        x = ShowInList("Error.", x);
+                        x = ShowInList(Resources.Error, x); //Error.
                     }
-                    x = ShowInList(string.Format("複製檔案... {0:0%}", (double)pbProcess.Value / (double)pbProcess.Maximum), x, true);
+                    x = ShowInList(string.Format(Resources.FileCopy1, (double)pbProcess.Value / (double)pbProcess.Maximum), x, true); //複製檔案... {0:0%}
                 }
-                x = ShowInList("複製完成。", x, true);
-                Directory.Delete(LocalUpdateTempPath, true);
+                x = ShowInList(Resources.FileCopy2, x, true);//複製完成。
+                //Directory.Delete(LocalUpdateTempPath, true);
             }
-
+            x = ShowInList(Resources.CreateShortcut);
             try
             {
                 ///开始生成快捷方式。和重新待开
-                string desktopDir = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-                string lnkFile = string.Format("{0}\\{1}ERP系統.lnk", desktopDir, CompanyTitleName);
+                string desktopDir = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
+                       lnkFile = string.Format("{0}\\{1} {2}.lnk", desktopDir, CompanyTitleName, Resources.ERPSyetemWord);//ERP系統
+
                 if (File.Exists(lnkFile)) File.Delete(lnkFile);
+
+                DirectoryInfo desktopDiretory = new DirectoryInfo(desktopDir);
+                var vlnks = desktopDiretory.GetFiles("*.lnk", SearchOption.TopDirectoryOnly);
+                var v = from a in vlnks
+                        select a.FullName;
+                foreach (var item in v)
+                {
+                    if (File.Exists(item))
+                    {
+                        WindowsShortcut.Shortcut xw = new WindowsShortcut.Shortcut();
+                        xw.Load(item);
+                        if (xw.Path == "C:\\MYERP-NT\\MYERP.exe") File.Delete(item);
+                    }
+                }
                 WindowsShortcut.Shortcut WC = new WindowsShortcut.Shortcut();
-                WC.Description = string.Format("{0}新ERP系統", CompanyTitleName);
-                WC.Path = string.Format("C:\\MYERP-NT\\{0}", "MYERP.exe");
+                WC.Description = string.Format("{0}{1}", CompanyTitleName, Resources.ERPSyetemWord2); //新ERP系統
+                WC.Path = "C:\\MYERP-NT\\MYERP.exe";
                 WC.WorkingDirectory = "C:\\MYERP-NT\\";
                 WC.Save(lnkFile);
             }
-            catch
+            catch (Exception ex)
             {
-
+                x = ShowInList(ex.Message);
+                return;
             }
 
             XDocument xdoc = XDocument.Load(RemoteConfigUrl);
@@ -390,6 +472,7 @@ namespace MYERPCopyer
             if (File.Exists(UpdateConfigFile)) File.Delete(UpdateConfigFile);
             xUpdateConfig.Save(@"C:\MYERP-NT\UpdateConfig.xml");
 
+            x = ShowInList(Resources.Reopen);
             try
             {
                 //重新開啓ERP
@@ -441,6 +524,20 @@ del %0
             psi.WindowStyle = ProcessWindowStyle.Hidden;
             Thread.Sleep(1000);
             Process.Start(psi);
+        }
+
+
+        private void KillProcessExists()
+        {
+            Process[] processes = Process.GetProcessesByName("MYERP");
+            foreach (Process p in processes)
+            {
+                //if (System.IO.Path.Combine(Application.StartupPath, "MYERP.exe") == p.MainModule.FileName)
+                //{
+                    p.Kill();
+                    p.Close();
+                //}
+            }
         }
 
     }

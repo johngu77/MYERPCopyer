@@ -25,6 +25,7 @@ namespace MYERPCopyer
             {
                 f = new frmInfo();
             }
+
             Application.Run(f);
         }
 

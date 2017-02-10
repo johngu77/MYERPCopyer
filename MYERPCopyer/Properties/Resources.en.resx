@@ -151,13 +151,13 @@
     <value>File Error</value>
   </data>
   <data name="FileProcess1" xml:space="preserve">
-    <value>Renew ... {0:0%}</value>
+    <value>Changing ... {0:0%}</value>
   </data>
   <data name="FileProcess2" xml:space="preserve">
     <value>Processing {0}...</value>
   </data>
   <data name="FileUpdate1" xml:space="preserve">
-    <value>Prepare to Copy ....</value>
+    <value>Prepare Copy ....</value>
   </data>
   <data name="FileUpdate2" xml:space="preserve">
     <value>Copy File...</value>
@@ -187,7 +187,7 @@
     <value>Unzip...</value>
   </data>
   <data name="UpdateStep3" xml:space="preserve">
-    <value>Cleaning setup folder</value>
+    <value>Cleaning setup folder and setup</value>
   </data>
   <data name="UpdateStep4" xml:space="preserve">
     <value>Setup tools updated,Start install after 1 second.</value>
@@ -196,7 +196,7 @@
     <value>Download File.</value>
   </data>
   <data name="UpdateStep6" xml:space="preserve">
-    <value>Download.....{0}%</value>
+    <value>Download ..... {0}%</value>
   </data>
   <data name="UpdateStep6Finish" xml:space="preserve">
     <value>Done</value>
@@ -226,13 +226,13 @@
     <value>Copy setup file</value>
   </data>
   <data name="UpdateStep3_3" xml:space="preserve">
-    <value>Copy language file {0}</value>
+    <value>Copy language file {0}....</value>
   </data>
   <data name="StopProcess" xml:space="preserve">
-    <value>Close ERP Processing</value>
+    <value>Stop all ERP Processing</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Create Shortcut on desktop</value>
+    <value>Create Shortcut on desktop.</value>
   </data>
   <data name="Reopen" xml:space="preserve">
     <value>Reopen ERP,Pls waiting...</value>
