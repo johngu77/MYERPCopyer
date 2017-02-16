@@ -118,123 +118,123 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CompanyTitleNameMD" xml:space="preserve">
-    <value>Minh Duc</value>
+    <value>明德</value>
   </data>
   <data name="CompanyTitleNameMT" xml:space="preserve">
-    <value>Ming Tai</value>
+    <value>明泰</value>
   </data>
   <data name="CompanyTitleNameMX" xml:space="preserve">
-    <value>Ming Xiang</value>
+    <value>明翔</value>
   </data>
   <data name="CompanyTitleNameMY" xml:space="preserve">
-    <value>Ming Yang</value>
+    <value>明扬</value>
   </data>
   <data name="ERPSyetemWord" xml:space="preserve">
-    <value> ERP System</value>
+    <value>ERP系統</value>
   </data>
   <data name="ERPSyetemWord2" xml:space="preserve">
-    <value> New ERP System</value>
+    <value>新ERP系統</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error.</value>
   </data>
   <data name="FileCopy1" xml:space="preserve">
-    <value>Copying... {0:0%}</value>
+    <value>复制文件... {0:0%}</value>
   </data>
   <data name="FileCopy2" xml:space="preserve">
-    <value>File copy complete.</value>
+    <value>复制完成</value>
   </data>
   <data name="FileFinish" xml:space="preserve">
     <value>Done.</value>
   </data>
   <data name="FileFinishError" xml:space="preserve">
-    <value>File Error</value>
+    <value>占用.</value>
   </data>
   <data name="FileProcess1" xml:space="preserve">
-    <value>Renew ... {0:0%}</value>
+    <value>复制文件... {0:0%}</value>
   </data>
   <data name="FileProcess2" xml:space="preserve">
-    <value>Processing {0}...</value>
+    <value>正在复制 {0}...</value>
   </data>
   <data name="FileUpdate1" xml:space="preserve">
-    <value>Prepare to Copy ....</value>
+    <value>更新。准备复制文件</value>
   </data>
   <data name="FileUpdate2" xml:space="preserve">
-    <value>Copy File...</value>
+    <value>复制文件....</value>
   </data>
   <data name="InfoTitle1" xml:space="preserve">
-    <value>Update</value>
+    <value>正在安装更新</value>
   </data>
   <data name="InfoTitle2" xml:space="preserve">
-    <value>Getting upgrade file</value>
+    <value>获取更新文件。</value>
   </data>
   <data name="lblDescription" xml:space="preserve">
-    <value>Checking Setting</value>
+    <value>检查配置。</value>
   </data>
   <data name="lblTitle" xml:space="preserve">
-    <value>ERP Update Tools</value>
+    <value>ERP更新工具</value>
   </data>
   <data name="UpdateProcess1" xml:space="preserve">
-    <value>Unzip  {0}%</value>
+    <value>解压缩  {0}%</value>
   </data>
   <data name="UpdateProcess2" xml:space="preserve">
-    <value>Unzip.....{0}%</value>
+    <value>正在解压.....{0}%</value>
   </data>
   <data name="UpdateStep1" xml:space="preserve">
-    <value>Download support file</value>
+    <value>下载安装必备文件....</value>
   </data>
   <data name="UpdateStep2" xml:space="preserve">
-    <value>Unzip...</value>
+    <value>解压缩....</value>
   </data>
   <data name="UpdateStep3" xml:space="preserve">
-    <value>Cleaning setup folder</value>
+    <value>清理安装文件夹。</value>
   </data>
   <data name="UpdateStep4" xml:space="preserve">
-    <value>Setup tools updated,Start install after 1 second.</value>
+    <value>安装工具已经更新，1秒后开始安装。</value>
   </data>
   <data name="UpdateStep5" xml:space="preserve">
-    <value>Download File.</value>
+    <value>下载安装包，重新安装...</value>
   </data>
   <data name="UpdateStep6" xml:space="preserve">
-    <value>Download.....{0}%</value>
+    <value>正在下载安装包.....{0}%</value>
   </data>
   <data name="UpdateStep6Finish" xml:space="preserve">
-    <value>Done</value>
+    <value>下载完成。</value>
   </data>
   <data name="UpdateStep7_1" xml:space="preserve">
-    <value>Unzip</value>
+    <value>解压缩。</value>
   </data>
   <data name="UpdateStep7_2" xml:space="preserve">
-    <value>Unzip</value>
+    <value>正在解压。</value>
   </data>
   <data name="UpdateSystem1" xml:space="preserve">
-    <value>Start...</value>
+    <value>安装开始....</value>
   </data>
   <data name="UpdateSystem2" xml:space="preserve">
-    <value>After 2 second..</value>
+    <value>由系统调用，等2秒后开始。</value>
   </data>
   <data name="UpdateSystem3" xml:space="preserve">
-    <value>Client IP.</value>
+    <value>检查本机IP：</value>
   </data>
   <data name="UpdateSystem4" xml:space="preserve">
-    <value>,Server IP:{0}</value>
+    <value>,设置服务器：{0}</value>
   </data>
   <data name="UpdateStep3_1" xml:space="preserve">
-    <value>Create Folder C:\MYERP-NT</value>
+    <value>创建C:\MYERP-NT安装位置</value>
   </data>
   <data name="UpdateStep3_2" xml:space="preserve">
-    <value>Copy setup file</value>
+    <value>复制安装文件。</value>
   </data>
   <data name="UpdateStep3_3" xml:space="preserve">
-    <value>Copy language file {0}</value>
+    <value>复制语言支持文件夹{0}...</value>
   </data>
   <data name="StopProcess" xml:space="preserve">
-    <value>Close ERP Processing</value>
+    <value>结束所有ERP进程</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Create Shortcut on desktop</value>
+    <value>正在创建桌面快捷方式...</value>
   </data>
   <data name="Reopen" xml:space="preserve">
-    <value>Reopen ERP,Pls waiting...</value>
+    <value>重新打开ERP系统，稍等片刻...</value>
   </data>
 </root>

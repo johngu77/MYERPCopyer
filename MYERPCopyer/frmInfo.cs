@@ -174,7 +174,11 @@ namespace MYERPCopyer
             Thread.Sleep(600);
             switch (IPSect)
             {
-                case 16:   //明泰
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20: //明泰
                     RemoteIP = "192.168.16.41";
                     RemoteConfigUrl = string.Format(@"http://{0}/Config/MT/Start.xml", RemoteIP);
                     RemoteFileUrl = string.Format(@"http://{0}/Config/MT/Setup.zip", RemoteIP);
@@ -416,14 +420,14 @@ namespace MYERPCopyer
                     x = ShowInList(string.Format(Resources.FileCopy1, (double)pbProcess.Value / (double)pbProcess.Maximum), x, true); //複製檔案... {0:0%}
                 }
                 x = ShowInList(Resources.FileCopy2, x, true);//複製完成。
-                //Directory.Delete(LocalUpdateTempPath, true);
+                Directory.Delete(LocalUpdateTempPath, true);
             }
             x = ShowInList(Resources.CreateShortcut);
             try
             {
                 ///开始生成快捷方式。和重新待开
                 string desktopDir = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
-                       lnkFile = string.Format("{0}\\{1} {2}.lnk", desktopDir, CompanyTitleName, Resources.ERPSyetemWord);//ERP系統
+                       lnkFile = string.Format("{0}\\{1}{2}.lnk", desktopDir, CompanyTitleName, Resources.ERPSyetemWord);//ERP系統
 
                 if (File.Exists(lnkFile)) File.Delete(lnkFile);
 

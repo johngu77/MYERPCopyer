@@ -106,7 +106,7 @@ namespace MYERPCopyer.Properties {
         }
         
         /// <summary>
-        ///   查找类似 ERP System 的本地化字符串。
+        ///   查找类似  ERP System 的本地化字符串。
         /// </summary>
         internal static string ERPSyetemWord {
             get {
@@ -115,7 +115,7 @@ namespace MYERPCopyer.Properties {
         }
         
         /// <summary>
-        ///   查找类似 New ERP System 的本地化字符串。
+        ///   查找类似  New ERP System 的本地化字符串。
         /// </summary>
         internal static string ERPSyetemWord2 {
             get {
