@@ -52,7 +52,7 @@
             // lbList
             // 
             resources.ApplyResources(this.lbList, "lbList");
-            this.lbList.BackColor = System.Drawing.Color.LightYellow;
+            this.lbList.BackColor = System.Drawing.Color.LightGray;
             this.lbList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbList.ForeColor = System.Drawing.SystemColors.ControlText;
             this.lbList.FormattingEnabled = true;
@@ -76,7 +76,7 @@
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.LightYellow;
+            this.BackColor = System.Drawing.Color.Silver;
             this.ControlBox = false;
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

@@ -161,8 +161,12 @@ namespace MYERPCopyer
             {
                 //由系统调用，等待2秒后启动...
                 x = ShowInList(Properties.Resources.UpdateSystem2);
-                Application.DoEvents();
-                Thread.Sleep(2000);
+                for (int i = 0; i < 5; i++)
+                {
+                    x = ShowInList(string.Format("........ {0} .......", 5 - i));
+                    Application.DoEvents();
+                    Thread.Sleep(1000);
+                }
             }
             x = ShowInList(Properties.Resources.UpdateSystem3);  //檢查本機IP：
             Thread.Sleep(600);
@@ -193,7 +197,10 @@ namespace MYERPCopyer
                     CompanyTitleName = Resources.CompanyTitleNameMX;
                     break;
                 case 2: //明德
-                    RemoteIP = "192.168.2.111";
+                case 25:
+                case 26:
+                case 27:
+                    RemoteIP = "192.168.2.38";
                     RemoteConfigUrl = string.Format(@"http://{0}/Config/MD/Start.xml", RemoteIP);
                     RemoteFileUrl = string.Format(@"http://{0}/Config/MD/Setup.zip", RemoteIP);
                     RemoteCopyerUrl = string.Format(@"http://{0}/Config/MD/MYERPCopyer.zip", RemoteIP);
@@ -347,6 +354,15 @@ namespace MYERPCopyer
                 {
                     //Application.DoEvents();
                     Thread.Sleep(200);
+                    if (wc.IsBusy)
+                    {
+                        Thread.Sleep(500);
+                        continue;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
                 x = ShowInList(Resources.UpdateStep6Finish, x, true); //"下载完成"
                 if (File.Exists(LocalUpdateTempZIP))

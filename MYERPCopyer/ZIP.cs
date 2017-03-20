@@ -126,7 +126,7 @@ namespace MYERPCopyer
                 }
             }
             ESum += 1;
-            fe.Progress = (object o, ProgressEventArgs arg) =>
+            fe.CompletedFile = (object o, ScanEventArgs arg) =>
             {
                 if (cZiping != null)
                 {

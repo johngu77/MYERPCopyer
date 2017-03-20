@@ -229,6 +229,9 @@
     <EmbeddedResource Include="frmInfo.vi-VN.resx">
       <DependentUpon>frmInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmInfo.vi.resx">
+      <DependentUpon>frmInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmInfo.zh-CHS.resx">
       <DependentUpon>frmInfo.cs</DependentUpon>
     </EmbeddedResource>

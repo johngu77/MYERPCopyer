@@ -181,7 +181,7 @@
     <value>Unzip.....{0}%</value>
   </data>
   <data name="UpdateStep1" xml:space="preserve">
-    <value>Download support file</value>
+    <value>Download update tools support file</value>
   </data>
   <data name="UpdateStep2" xml:space="preserve">
     <value>Unzip...</value>
