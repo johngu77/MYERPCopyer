@@ -211,7 +211,7 @@
     <value>開始安裝。</value>
   </data>
   <data name="UpdateSystem2" xml:space="preserve">
-    <value>等2秒后開啓。</value>
+    <value>等5秒后開啓。</value>
   </data>
   <data name="UpdateSystem3" xml:space="preserve">
     <value>檢查本機網路。</value>

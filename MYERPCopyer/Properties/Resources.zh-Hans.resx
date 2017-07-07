@@ -211,7 +211,7 @@
     <value>安装开始....</value>
   </data>
   <data name="UpdateSystem2" xml:space="preserve">
-    <value>由系统调用，等2秒后开始。</value>
+    <value>由系统调用，等5秒后开始。</value>
   </data>
   <data name="UpdateSystem3" xml:space="preserve">
     <value>检查本机IP：</value>

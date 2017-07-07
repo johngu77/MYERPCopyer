@@ -197,6 +197,7 @@ namespace MYERPCopyer
                     CompanyTitleName = Resources.CompanyTitleNameMX;
                     break;
                 case 2: //明德
+                case 4:
                 case 25:
                 case 26:
                 case 27:
@@ -271,10 +272,24 @@ namespace MYERPCopyer
                 ZipHelper.UnzipDirectory(LocalUpdateTempCopyer, LocalUpdateTempCopyerTemp, null);
 
                 x = ShowInList(Resources.UpdateStep3); //清理安裝文件夾，安裝到C:\MYERP-NT
-                if (Directory.Exists(SetupPath)) Directory.Delete(SetupPath, true);
+                try
+                {
+                    if (Directory.Exists(SetupPath)) Directory.Delete(SetupPath, true);
+                }
+                catch (Exception ex)
+                {
+                    x = ShowInList(ex.Message);
+                }
 
                 x = ShowInList(Resources.UpdateStep3_1);  //创建C:\MYERP-NT安装位置
-                Directory.CreateDirectory(SetupPath);
+                try
+                {
+                    Directory.CreateDirectory(SetupPath);
+                }
+                catch (Exception ex)
+                {
+                    x = ShowInList(ex.Message);
+                }
 
                 string SetupCopyerFileName = string.Format("{0}\\{1}", SetupPath, "MYERPCopyer.exe");
                 x = ShowInList(Resources.UpdateStep3_2);  //复制安装文件

@@ -5102,9 +5102,6 @@
   <data name="pbProcess.Size" type="System.Drawing.Size, System.Drawing">
     <value>369, 19</value>
   </data>
-  <data name="&gt;&gt;lbList.Name" xml:space="preserve">
-    <value>lbList</value>
-  </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -5166,6 +5163,9 @@
   <data name="&gt;&gt;lblTitle.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="lbList.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 53</value>
+  </data>
   <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -5175,8 +5175,8 @@
   <data name="pbProcess.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 139</value>
   </data>
-  <data name="lbList.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 53</value>
+  <data name="&gt;&gt;lbList.Name" xml:space="preserve">
+    <value>lbList</value>
   </data>
   <data name="lbList.Size" type="System.Drawing.Size, System.Drawing">
     <value>369, 80</value>

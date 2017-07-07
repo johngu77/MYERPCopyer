@@ -394,7 +394,7 @@ namespace MYERPCopyer.Properties {
         }
         
         /// <summary>
-        ///   查找类似 After 2 second.. 的本地化字符串。
+        ///   查找类似 After 5 second.. 的本地化字符串。
         /// </summary>
         internal static string UpdateSystem2 {
             get {
