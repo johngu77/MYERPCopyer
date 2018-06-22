@@ -72,6 +72,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SetFont.cs" />
     <Compile Include="CSharpZIP\BZip2\BZip2.cs" />
     <Compile Include="CSharpZIP\BZip2\BZip2Constants.cs" />
     <Compile Include="CSharpZIP\BZip2\BZip2Exception.cs" />
@@ -220,6 +221,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmInfo.en-GB.resx">
+      <DependentUpon>frmInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmInfo.en.resx">
       <DependentUpon>frmInfo.cs</DependentUpon>
     </EmbeddedResource>
@@ -239,6 +243,9 @@
       <DependentUpon>frmInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmInfo.zh-CN.resx">
+      <DependentUpon>frmInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmInfo.zh-Hans-HK.resx">
       <DependentUpon>frmInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmInfo.zh-Hans.resx">

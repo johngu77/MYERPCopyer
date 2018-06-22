@@ -211,7 +211,7 @@
     <value>Start...</value>
   </data>
   <data name="UpdateSystem2" xml:space="preserve">
-    <value>After 2 second..</value>
+    <value>After 5 second..</value>
   </data>
   <data name="UpdateSystem3" xml:space="preserve">
     <value>Client IP.</value>

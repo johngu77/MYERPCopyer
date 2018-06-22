@@ -119,41 +119,25 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="pbProcess.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 371</value>
+    <value>3, 165</value>
   </data>
   <data name="pbProcess.Size" type="System.Drawing.Size, System.Drawing">
-    <value>430, 19</value>
-  </data>
-  <data name="lblTitle.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 18pt, style=Bold</value>
+    <value>427, 19</value>
   </data>
   <data name="lblTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>430, 30</value>
-  </data>
-  <data name="lbList.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="lbList.ItemHeight" type="System.Int32, mscorlib">
-    <value>14</value>
+    <value>427, 30</value>
   </data>
   <data name="lbList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>430, 312</value>
-  </data>
-  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>436, 393</value>
-  </data>
-  <data name="lblDescription.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
+    <value>427, 106</value>
   </data>
   <data name="lblDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>430, 20</value>
+    <value>427, 20</value>
   </data>
-  <data name="lblDescription.Text" xml:space="preserve">
-    <value>Checking Settings ....</value>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>433, 187</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>436, 393</value>
+    <value>433, 187</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -5110,8 +5094,5 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//AAD8fwAA4B8AAIAHAAAAAwAAAAAAAAAAAAAAAAAAAAMAAAAB
         AAAAAQAAAAEAAIABAADgBwAA//8AAP//AAA=
 </value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Intermedia ERP Updator 4.7</value>
   </data>
 </root>

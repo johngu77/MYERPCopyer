@@ -118,29 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pbProcess.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 222</value>
-  </data>
-  <data name="pbProcess.Size" type="System.Drawing.Size, System.Drawing">
-    <value>433, 19</value>
-  </data>
-  <data name="lblTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>433, 30</value>
+  <data name="lblTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 18pt, style=Bold</value>
   </data>
   <data name="lblTitle.Text" xml:space="preserve">
-    <value>明扬ERP更新工具4.5</value>
-  </data>
-  <data name="lbList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>433, 163</value>
-  </data>
-  <data name="lblDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>433, 20</value>
-  </data>
-  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>439, 244</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>439, 244</value>
+    <value>明扬ERP更新工具4.7</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -5099,6 +5081,6 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>明扬ERP更新工具4.5</value>
+    <value>明扬ERP更新工具4.7</value>
   </data>
 </root>

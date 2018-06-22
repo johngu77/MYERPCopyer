@@ -119,28 +119,28 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="pbProcess.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 244</value>
+    <value>3, 298</value>
   </data>
   <data name="pbProcess.Size" type="System.Drawing.Size, System.Drawing">
-    <value>427, 19</value>
+    <value>474, 19</value>
   </data>
   <data name="lblTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>427, 30</value>
+    <value>474, 30</value>
   </data>
   <data name="lblTitle.Text" xml:space="preserve">
     <value>明揚ERP更新程式4.5</value>
   </data>
   <data name="lbList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>427, 185</value>
+    <value>474, 239</value>
   </data>
   <data name="lblDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>427, 20</value>
+    <value>474, 20</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>433, 266</value>
+    <value>480, 320</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>433, 266</value>
+    <value>480, 320</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

@@ -231,7 +231,7 @@ del %0";
                     Thread.Sleep(500);
                     bool makeshortcut = true, startmainsystem = true;
                     string localPath = Application.StartupPath;
-                    string remotePath = @"\\192.168.1.6\123\Release", UID = "erpupdate", Password = "abcde_12345";
+                    string remotePath = @"\\192.168.1.8\123\Release", UID = "erpupdate", Password = "abcde_12345";
                     lock (this) { _OutputWord = "正准备连接远程更新位置。"; }
                     Thread.Sleep(50);
                     try

@@ -172,7 +172,7 @@ namespace MYERPCopyer
             Thread.Sleep(600);
             string LocalIP = MYERPCopyer.NetworkNeighborhood.NetDiskConnection.GetLocalIp();
             x = ShowInList(LocalIP, x);
-            string RemoteIP = "192.168.1.6", RemoteFileUrl, RemoteConfigUrl, RemoteCopyerUrl, CompanyTitleName;
+            string RemoteIP = "192.168.1.8", RemoteFileUrl, RemoteConfigUrl, RemoteCopyerUrl, CompanyTitleName;
             Regex rgx = new Regex(@"(\d+)(?=\.)");
             int IPSect = int.Parse(rgx.Matches(LocalIP)[2].Value);
             Thread.Sleep(600);
@@ -208,7 +208,7 @@ namespace MYERPCopyer
                     CompanyTitleName = Resources.CompanyTitleNameMD;
                     break;
                 default:  //默认都是明扬
-                    RemoteIP = "192.168.1.6";
+                    RemoteIP = "192.168.1.8";
                     RemoteConfigUrl = string.Format(@"http://{0}/Config/MY/Start.xml", RemoteIP);
                     RemoteFileUrl = string.Format(@"http://{0}/Config/MY/Setup.zip", RemoteIP);
                     RemoteCopyerUrl = string.Format(@"http://{0}/Config/MY/MYERPCopyer.zip", RemoteIP);
@@ -401,7 +401,7 @@ namespace MYERPCopyer
                             this.InfoDescription = fileName;
                         }
                         );
-                    string TempCopyerExePath = string.Format("{0}\\MYERPCopyer.exe",LocalUpdateTempPath);
+                    string TempCopyerExePath = string.Format("{0}\\MYERPCopyer.exe", LocalUpdateTempPath);
                     if (File.Exists(TempCopyerExePath)) File.Delete(TempCopyerExePath);
                     if (File.Exists(LocalUpdateTempZIP)) File.Delete(LocalUpdateTempZIP);
                 }
@@ -441,27 +441,52 @@ namespace MYERPCopyer
                         }
                         else
                         {
-                            x = ShowInList(Resources.FileFinishError, x); //占用.
+                            x = ShowInList(Resources.FileFinishError); //占用.
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        x = ShowInList(Resources.Error, x); //Error.
+                        x = ShowInList(string.Format("{0}.{1}", Resources.Error, ex.Message)); //Error.
                     }
                     x = ShowInList(string.Format(Resources.FileCopy1, (double)pbProcess.Value / (double)pbProcess.Maximum), x, true); //複製檔案... {0:0%}
                 }
                 x = ShowInList(Resources.FileCopy2, x, true);//複製完成。
+
+
+                x = ShowInList("安装字体");
+                x = ShowInList("安装字体..");
+                var vFontList = from a in files
+                                where Path.GetExtension(a).ToLower() == "ttf"
+                                select a;
+                foreach (var item in vFontList)
+                {
+                    string RealFile = string.Format("C:\\MYERP-NT\\{0}", Path.GetFileName(item));
+                    if (File.Exists(RealFile))
+                    {
+                        bool ok = SetFont.InstallFont(RealFile, Path.GetFileNameWithoutExtension(item));
+                        if (ok)
+                        {
+                            x = ShowInList(string.Format("字体:{0}，安装完成", item), x);
+                        }
+                        else
+                        {
+                            x = ShowInList(string.Format("字体:{0}，安装失败！", item));
+                        }
+                        Thread.Sleep(2000);
+                    }
+                }
+                x = ShowInList("安装字体...完毕！");
                 Directory.Delete(LocalUpdateTempPath, true);
             }
+
             x = ShowInList(Resources.CreateShortcut);
+            string desktopDir = System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                      lnkFile = string.Format("{0}\\{1}{2}.lnk", desktopDir, CompanyTitleName, Resources.ERPSyetemWord);//ERP系統
+            x = ShowInList(lnkFile);
             try
             {
                 ///开始生成快捷方式。和重新待开
-                string desktopDir = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
-                       lnkFile = string.Format("{0}\\{1}{2}.lnk", desktopDir, CompanyTitleName, Resources.ERPSyetemWord);//ERP系統
-
                 if (File.Exists(lnkFile)) File.Delete(lnkFile);
-
                 DirectoryInfo desktopDiretory = new DirectoryInfo(desktopDir);
                 var vlnks = desktopDiretory.GetFiles("*.lnk", SearchOption.TopDirectoryOnly);
                 var v = from a in vlnks
@@ -483,30 +508,36 @@ namespace MYERPCopyer
             }
             catch (Exception ex)
             {
-                x = ShowInList(ex.Message);
-                return;
+                x = ShowInList(string.Format("{0}\r\n {1}", ex.Message, lnkFile));
             }
+            try
+            {
+                XDocument xdoc = XDocument.Load(RemoteConfigUrl);
+                var vXml = from a in xdoc.Element("Root").Element("Host").Elements()
+                           select a;
+                var vvXml = from a in vXml.Elements()
+                            where a.Name == "Set" && a.Attribute("Key").Value == "Version"
+                            select a;
+                string VersionValue = vvXml.FirstOrDefault().Attribute("Name").Value;
+                //获取最新版本号，写入UpdateConfig.xml
+                XDocument xDoc = new XDocument();
 
-            XDocument xdoc = XDocument.Load(RemoteConfigUrl);
-            var vXml = from a in xdoc.Element("Root").Element("Host").Elements()
-                       select a;
-            var vvXml = from a in vXml.Elements()
-                        where a.Name == "Set" && a.Attribute("Key").Value == "Version"
-                        select a;
-            string VersionValue = vvXml.FirstOrDefault().Attribute("Name").Value;
-            //获取最新版本号，写入UpdateConfig.xml
-            XmlDocument xUpdateConfig = new XmlDocument();
-            XmlDeclaration xUpdateConfig_Decl = xUpdateConfig.CreateXmlDeclaration("1.0", "utf-8", "yes");
-            xUpdateConfig.AppendChild(xUpdateConfig_Decl);
-            XmlElement xUpdateConfig_Config = xUpdateConfig.CreateElement("Config");
-            XmlElement xUpdateConfig_Version = xUpdateConfig.CreateElement("Version");
-            xUpdateConfig_Version.SetAttribute("Value", VersionValue);
-            xUpdateConfig_Config.AppendChild(xUpdateConfig_Version);
-            xUpdateConfig.AppendChild(xUpdateConfig_Config);
-            string UpdateConfigFile = @"C:\MYERP-NT\UpdateConfig.xml";
-            if (File.Exists(UpdateConfigFile)) File.Delete(UpdateConfigFile);
-            xUpdateConfig.Save(@"C:\MYERP-NT\UpdateConfig.xml");
-
+                XmlDocument xUpdateConfig = new XmlDocument();
+                XmlDeclaration xUpdateConfig_Decl = xUpdateConfig.CreateXmlDeclaration("1.0", "utf-8", "yes");
+                xUpdateConfig.AppendChild(xUpdateConfig_Decl);
+                XmlElement xUpdateConfig_Config = xUpdateConfig.CreateElement("Config");
+                XmlElement xUpdateConfig_Version = xUpdateConfig.CreateElement("Version");
+                xUpdateConfig_Version.SetAttribute("Value", VersionValue);
+                xUpdateConfig_Config.AppendChild(xUpdateConfig_Version);
+                xUpdateConfig.AppendChild(xUpdateConfig_Config);
+                string UpdateConfigFile = @"C:\MYERP-NT\UpdateConfig.xml";
+                if (File.Exists(UpdateConfigFile)) File.Delete(UpdateConfigFile);
+                xUpdateConfig.Save(@"C:\MYERP-NT\UpdateConfig.xml");
+            }
+            catch (Exception ex)
+            {
+                x = ShowInList(ex.Message);
+            }
             x = ShowInList(Resources.Reopen);
             try
             {
@@ -516,9 +547,9 @@ namespace MYERPCopyer
                 PSMain.WorkingDirectory = @"C:\MYERP-NT";
                 Process.Start(PSMain);
             }
-            catch
+            catch (Exception ex)
             {
-
+                x = ShowInList(ex.Message);
             }
             Invoke((MethodInvoker)delegate
             {
@@ -569,8 +600,8 @@ del %0
             {
                 //if (System.IO.Path.Combine(Application.StartupPath, "MYERP.exe") == p.MainModule.FileName)
                 //{
-                    p.Kill();
-                    p.Close();
+                p.Kill();
+                p.Close();
                 //}
             }
         }
