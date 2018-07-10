@@ -185,14 +185,14 @@ namespace MYERPCopyer
                 case 20: //明泰
                     RemoteIP = "192.168.16.41";
                     RemoteConfigUrl = string.Format(@"http://{0}/Config/MT/Start.xml", RemoteIP);
-                    RemoteFileUrl = string.Format(@"http://{0}/Config/MT/Setup.zip", RemoteIP);
+                    RemoteFileUrl = string.Format(@"http://{0}/Config/MT/Setup.7z", RemoteIP);
                     RemoteCopyerUrl = string.Format(@"http://{0}/Config/MT/MYERPCopyer.zip", RemoteIP);
                     CompanyTitleName = Resources.CompanyTitleNameMT;
                     break;
                 case 10: //明翔
                     RemoteIP = "192.168.16.41";
                     RemoteConfigUrl = string.Format(@"http://{0}/Config/MT/Start.xml", RemoteIP);
-                    RemoteFileUrl = string.Format(@"http://{0}/Config/MT/Setup.zip", RemoteIP);
+                    RemoteFileUrl = string.Format(@"http://{0}/Config/MT/Setup.7z", RemoteIP);
                     RemoteCopyerUrl = string.Format(@"http://{0}/Config/MT/MYERPCopyer.zip", RemoteIP);
                     CompanyTitleName = Resources.CompanyTitleNameMX;
                     break;
@@ -203,14 +203,14 @@ namespace MYERPCopyer
                 case 27:
                     RemoteIP = "192.168.2.38";
                     RemoteConfigUrl = string.Format(@"http://{0}/Config/MD/Start.xml", RemoteIP);
-                    RemoteFileUrl = string.Format(@"http://{0}/Config/MD/Setup.zip", RemoteIP);
+                    RemoteFileUrl = string.Format(@"http://{0}/Config/MD/Setup.7z", RemoteIP);
                     RemoteCopyerUrl = string.Format(@"http://{0}/Config/MD/MYERPCopyer.zip", RemoteIP);
                     CompanyTitleName = Resources.CompanyTitleNameMD;
                     break;
                 default:  //默认都是明扬
                     RemoteIP = "192.168.1.8";
                     RemoteConfigUrl = string.Format(@"http://{0}/Config/MY/Start.xml", RemoteIP);
-                    RemoteFileUrl = string.Format(@"http://{0}/Config/MY/Setup.zip", RemoteIP);
+                    RemoteFileUrl = string.Format(@"http://{0}/Config/MY/Setup.7z", RemoteIP);
                     RemoteCopyerUrl = string.Format(@"http://{0}/Config/MY/MYERPCopyer.zip", RemoteIP);
                     CompanyTitleName = Resources.CompanyTitleNameMY;
                     break;
@@ -291,14 +291,19 @@ namespace MYERPCopyer
                     x = ShowInList(ex.Message);
                 }
 
-                string SetupCopyerFileName = string.Format("{0}\\{1}", SetupPath, "MYERPCopyer.exe");
                 x = ShowInList(Resources.UpdateStep3_2);  //复制安装文件
                 try
                 {
-
-                    FileInfo fCopyer = new FileInfo(LocalUpdateTempCopyerTempFile);
-                    fCopyer.CopyTo(SetupCopyerFileName, true);
-                    //File.Copy(LocalUpdateTempCopyerTempFile, SetupCopyerFileName);
+                    DirectoryInfo tempDir = new DirectoryInfo(LocalUpdateTempCopyerTemp);
+                    FileInfo[] allfiles = tempDir.GetFiles();
+                    foreach (var fileItem in allfiles)
+                    {
+                        string SetupCopytoFileName = string.Format("{0}\\{1}", SetupPath, fileItem.Name);
+                        fileItem.CopyTo(SetupCopytoFileName, true);
+                    }
+                    //FileInfo fCopyer = new FileInfo(LocalUpdateTempCopyerTempFile);
+                    //fCopyer.CopyTo(SetupCopyerFileName, true);
+                    ////File.Copy(LocalUpdateTempCopyerTempFile, SetupCopyerFileName);
                 }
                 catch (Exception ex)
                 {
@@ -323,6 +328,7 @@ namespace MYERPCopyer
                     x = ShowInList(ex.Message);
                     return;
                 }
+                string SetupCopyerFileName = string.Format("{0}\\{1}", SetupPath, "MYERPCopyer.exe");
                 ProcessStartInfo psi = new ProcessStartInfo();
                 psi.FileName = SetupCopyerFileName;
                 psi.WorkingDirectory = @"C:\MYERP-NT";
@@ -338,12 +344,88 @@ namespace MYERPCopyer
                 });
                 return;
             }
+            ///检查是否有7z的辅助文件，如果没有就是旧的更新文件在运行，复制到桌面再来一次就OK了。
+            string SevenZipFile = string.Format("{0}\\{1}", System.Environment.CurrentDirectory, "SevenZipSharp.dll");
+            if (!File.Exists(SevenZipFile))
+            {
+                string LocalUpdateTempCopyer = string.Format("{0}{1}", Path.GetTempPath(), "MYERPCopyer.zip"),
+       LocalUpdateTempCopyerTemp = string.Format("{0}{1}", Path.GetTempPath(), "MYERPCopyerTemp");
+                try
+                {
+                    if (Directory.Exists(LocalUpdateTempCopyerTemp)) Directory.Delete(LocalUpdateTempCopyerTemp, true);
+                    if (File.Exists(LocalUpdateTempCopyer)) File.Delete(LocalUpdateTempCopyer);
+                }
+                catch
+                {
+                }
+                WebClient wc = new WebClient();
+                InfoTitle = Resources.InfoTitle1;
+                x = ShowInList(Resources.UpdateStep1); //下載安裝必要文件...
+
+                bool ProcessComplate = false;
+                wc.DownloadProgressChanged += (object sender, DownloadProgressChangedEventArgs e) =>
+                {
+                    Invoke((MethodInvoker)delegate
+                    {
+                        pbProcess.Maximum = 100;
+                        x = ShowInList(string.Format(Resources.UpdateStep6, e.ProgressPercentage), x, true);//正在下载安装包.....{0}%
+                        pbProcess.Value = e.ProgressPercentage;
+                        Application.DoEvents();
+                    });
+                };
+                wc.DownloadFileCompleted += (object sender, AsyncCompletedEventArgs e) =>
+                {
+                    ProcessComplate = true;
+                };
+                wc.DownloadFileAsync(new Uri(RemoteCopyerUrl), LocalUpdateTempCopyer);
+                while (!ProcessComplate)
+                {
+                    Invoke((MethodInvoker)delegate
+                    {
+                        Application.DoEvents();
+                    });
+                    Thread.Sleep(200);
+                }
+
+                x = ShowInList(Resources.UpdateStep2); //解壓縮...
+                ZipHelper.UnzipDirectory(LocalUpdateTempCopyer, LocalUpdateTempCopyerTemp, null);
+                string SetupCopyerFileName = string.Format("{0}\\{1}", System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "MYERPCopyer.exe");
+                try
+                {
+                    string f1 = string.Format("{0}\\SevenZipSharp.dll", LocalUpdateTempCopyerTemp);
+                    string f2 = string.Format("{0}\\7za-32.dll", LocalUpdateTempCopyerTemp);
+                    string f3 = string.Format("{0}\\7za-64.dll", LocalUpdateTempCopyerTemp);
+                    string f = string.Format("{0}\\MYERPCopyer.exe", LocalUpdateTempCopyerTemp);
+
+                    File.Copy(f1, "C:\\MYERP-NT\\SevenZipSharp.dll", true);
+                    File.Copy(f1, "C:\\MYERP-NT\\7za-32.dll", true);
+                    File.Copy(f1, "C:\\MYERP-NT\\7za-64.dll", true);
+                    File.Copy(f, SetupCopyerFileName, true);
+                }
+                catch (Exception ex)
+                {
+                    x = ShowInList(ex.Message);
+                    return;
+                }
+
+                ProcessStartInfo psi = new ProcessStartInfo();
+                psi.FileName = SetupCopyerFileName;
+                psi.WorkingDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                Process.Start(psi);
+                Invoke((MethodInvoker)delegate
+                {
+                    Hide();
+                    Thread.Sleep(1000);
+                    Close();
+                    Application.Exit();
+                });
+            }
 
             string LocalUpdateTempPath = string.Format("{0}\\{1}", System.Environment.CurrentDirectory, "UpdateTEMP");
             ///检查是否含有更新文件夹，如果没有就直接重新下载。
             if (!(Directory.Exists(LocalUpdateTempPath) && Directory.GetFiles(LocalUpdateTempPath).Count() > 0))
             {
-                string LocalUpdateTempZIP = string.Format("{0}\\{1}", System.Environment.CurrentDirectory, "Setup.zip");
+                string LocalUpdateTempZIP = string.Format("{0}\\{1}", System.Environment.CurrentDirectory, "Setup.7z");
                 if (File.Exists(LocalUpdateTempZIP)) File.Delete(LocalUpdateTempZIP);
 
                 WebClient wc = new WebClient();
@@ -387,20 +469,34 @@ namespace MYERPCopyer
                     Application.DoEvents();
                     Thread.Sleep(1000);
                     if (Directory.Exists(LocalUpdateTempPath)) Directory.Delete(LocalUpdateTempPath, true);
-                    ZipHelper.UnZipFile(LocalUpdateTempZIP, LocalUpdateTempPath,
-                        (int Percent, string fileName) =>
+                    //ZipHelper.UnZipFile(LocalUpdateTempZIP, LocalUpdateTempPath,
+                    //    (int Percent, string fileName) =>
+                    //    {
+                    //        Invoke((MethodInvoker)delegate
+                    //        {
+                    //            pbProcess.Maximum = 100;
+                    //            InfoTitle = string.Format(Resources.UpdateProcess1, Percent); //解压缩  {0}%
+                    //            x = ShowInList(string.Format(Resources.UpdateProcess2, Percent), x, true); //正在解压缩.....{0}%
+                    //            pbProcess.Value = Percent;
+                    //            Application.DoEvents();
+                    //        });
+                    //        this.InfoDescription = fileName;
+                    //    }
+                    //    );
+                    ZipHelper.Extra7Zip(LocalUpdateTempZIP, LocalUpdateTempPath,
+                    (int Percent, string fileName) =>
+                    {
+                        Invoke((MethodInvoker)delegate
                         {
-                            Invoke((MethodInvoker)delegate
-                            {
-                                pbProcess.Maximum = 100;
-                                InfoTitle = string.Format(Resources.UpdateProcess1, Percent); //解压缩  {0}%
-                                x = ShowInList(string.Format(Resources.UpdateProcess2, Percent), x, true); //正在解压缩.....{0}%
-                                pbProcess.Value = Percent;
-                                Application.DoEvents();
-                            });
-                            this.InfoDescription = fileName;
-                        }
-                        );
+                            pbProcess.Maximum = 100;
+                            InfoTitle = string.Format(Resources.UpdateProcess1, Percent); //解压缩  {0}%
+                            x = ShowInList(string.Format(Resources.UpdateProcess2, Percent), x, true); //正在解压缩.....{0}%
+                            pbProcess.Value = Percent;
+                            Application.DoEvents();
+                        });
+                        this.InfoDescription = fileName;
+                    }
+                    );
                     string TempCopyerExePath = string.Format("{0}\\MYERPCopyer.exe", LocalUpdateTempPath);
                     if (File.Exists(TempCopyerExePath)) File.Delete(TempCopyerExePath);
                     if (File.Exists(LocalUpdateTempZIP)) File.Delete(LocalUpdateTempZIP);
@@ -591,7 +687,6 @@ del %0
             Thread.Sleep(1000);
             Process.Start(psi);
         }
-
 
         private void KillProcessExists()
         {

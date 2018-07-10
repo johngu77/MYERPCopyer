@@ -7,6 +7,8 @@ using ICSharpCode.SharpZipLib;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Checksums;
 using ICSharpCode.SharpZipLib.Core;
+using SevenZip.Sdk;
+using SevenZip;
 
 namespace MYERPCopyer
 {
@@ -142,6 +144,41 @@ namespace MYERPCopyer
             f.CreateEmptyDirectories = true;
             f.RestoreDateTimeOnExtract = true;
             f.ExtractZip(ZipFileName, ExtractToPath, string.Empty);
+        }
+
+
+        public static void Create7Zip(string forComposeDirectory, string ZipFileName, Unziping Processing)
+        {
+            string startuppath;
+            if (IntPtr.Size == 4)
+                startuppath = string.Format(@"{0}\{1}", System.IO.Directory.GetCurrentDirectory(), "7za-32.dll");
+            else
+                startuppath = string.Format(@"{0}\{1}", System.IO.Directory.GetCurrentDirectory(), "7za-64.dll");
+            SevenZipBase.SetLibraryPath(startuppath);
+            SevenZipCompressor fe = new SevenZipCompressor();
+            fe.FileCompressionStarted += (object sender, FileNameEventArgs e) =>
+            {
+                if (Processing != null) Processing((int)e.PercentDone, Path.GetFileName(e.FileName));
+            };
+            fe.CompressionLevel = CompressionLevel.High;
+            fe.CompressionMode = CompressionMode.Create;
+            fe.CompressDirectory(forComposeDirectory, ZipFileName);
+        }
+
+        public static void Extra7Zip(string ZipFileName, string ExtractToPath, Unziping Processing)
+        {
+            string startuppath;
+            if (IntPtr.Size == 4)
+                startuppath = string.Format(@"{0}\{1}", System.IO.Directory.GetCurrentDirectory(), "7za-32.dll");
+            else
+                startuppath = string.Format(@"{0}\{1}", System.IO.Directory.GetCurrentDirectory(), "7za-64.dll");
+            SevenZipBase.SetLibraryPath(startuppath);
+            SevenZipExtractor fe = new SevenZipExtractor(ZipFileName);
+            fe.FileExtractionStarted += (object sender, FileInfoEventArgs e) =>
+            {
+                if (Processing != null) Processing((int)e.PercentDone, Path.GetFileName(e.FileInfo.FileName));
+            };
+            fe.ExtractArchive(ExtractToPath);
         }
     }
 }
